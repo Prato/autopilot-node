@@ -1,4 +1,4 @@
-FROM prato/autopilot-nginx
+FROM prato/autopilot-base
 
 MAINTAINER NGINX Docker Maintainers "docker-maint@nginx.com"
 
