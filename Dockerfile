@@ -1,13 +1,13 @@
 FROM prato/autopilot-base:0.1.7
 
-ENV VERSION=v6.3.1 NPM_VERSION=3
+ENV NODE_VER=v6.3.1
+ENV NPM_VER=3
 
 # For base builds
 # ENV CONFIG_FLAGS="--without-npm" RM_DIRS=/usr/include
 # ENV CONFIG_FLAGS="--fully-static --without-npm" DEL_PKGS="libgcc libstdc++" RM_DIRS=/usr/include
 
-RUN apk add --no-cache \
-        curl \
+RUN apk update; apk add --upgrade \
         make \
         gcc \
         g++ \
@@ -27,16 +27,15 @@ RUN gpg --keyserver ha.pool.sks-keyservers.net --recv-keys \
         DD8F2338BAE7501E3DD5AC78C273792F7D83545D \
         C4F0DFFF4E8C1A8236409D08E73BC641CC11F4C8 \
         B9AE9905FFD7803F25714661B63B535A4C206CA9
-        RUN curl --retry 7 -Lso /tmp/consul-template.zip \
 
-RUN curl --retry 7 -Lso /tmp/node-${VERSION}.tar.gz \
-        "https://nodejs.org/dist/${VERSION}/node-${VERSION}.tar.gz" \
+RUN curl --retry 7 -Lso /tmp/node-${NODE_VER}.tar.gz \
+        "https://nodejs.org/dist/${NODE_VER}/node-${NODE_VER}.tar.gz" \
   && curl -sSL -o /tmp/SHASUMS256.txt.asc \
-        "https://nodejs.org/dist/${VERSION}/SHASUMS256.txt.asc" \
+        "https://nodejs.org/dist/${NODE_VER}/SHASUMS256.txt.asc" \
   && gpg --verify /tmp/SHASUMS256.txt.asc \
-  && grep /tmp/node-${VERSION}.tar.gz SHASUMS256.txt.asc | sha256sum -c - \
-  && tar -zxf /tmp/node-${VERSION}.tar.gz \
-  && cd /tmp/node-${VERSION} \
+  && grep /tmp/node-${NODE_VER}.tar.gz SHASUMS256.txt.asc | sha256sum -c - \
+  && tar -zxf /tmp/node-${NODE_VER}.tar.gz \
+  && cd /tmp/node-${NODE_VER} \
   && export GYP_DEFINES="linux_use_gold_flags=0" \
   && ./configure --prefix=/usr ${CONFIG_FLAGS} \
   && NPROC=$(grep -c ^processor /proc/cpuinfo 2>/dev/null || 1) \
@@ -48,12 +47,12 @@ RUN curl --retry 7 -Lso /tmp/node-${VERSION}.tar.gz \
   && cd / \
 
   && if [ -x /usr/bin/npm ]; then \
-        npm install -g npm@${NPM_VERSION} \
+        npm install -g npm@${NPM_VER} \
         && find /usr/lib/node_modules/npm -name test -o -name .bin -type d \
         | xargs rm -rf; \
   fi \
 
   && apk del curl make gcc g++ python linux-headers paxctl gnupg ${DEL_PKGS} \
-  && rm -rf /etc/ssl /node-${VERSION}.tar.gz /SHASUMS256.txt.asc /node-${VERSION} ${RM_DIRS} \
+  && rm -rf /etc/ssl /node-${NODE_VER}.tar.gz /SHASUMS256.txt.asc /node-${NODE_VER} ${RM_DIRS} \
     /usr/share/man /tmp/* /var/cache/apk/* /root/.npm /root/.node-gyp /root/.gnupg \
     /usr/lib/node_modules/npm/man /usr/lib/node_modules/npm/doc /usr/lib/node_modules/npm/html
