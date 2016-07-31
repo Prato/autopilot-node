@@ -34,8 +34,9 @@ RUN curl --retry 7 -Lso /tmp/node-${NODE_VER}.tar.gz \
         "https://nodejs.org/dist/${NODE_VER}/SHASUMS256.txt.asc" \
   && gpg --verify /tmp/SHASUMS256.txt.asc \
   && grep /tmp/node-${NODE_VER}.tar.gz SHASUMS256.txt.asc | sha256sum -c - \
-  && tar -zxf /tmp/node-${NODE_VER}.tar.gz \
-  && cd /tmp/node-${NODE_VER} \
+  && tar -zxf /tmp/node-${NODE_VER}.tar.gz
+
+RUN cd /tmp/node-${NODE_VER} \
   && export GYP_DEFINES="linux_use_gold_flags=0" \
   && ./configure --prefix=/usr ${CONFIG_FLAGS} \
   && NPROC=$(grep -c ^processor /proc/cpuinfo 2>/dev/null || 1) \
@@ -43,9 +44,9 @@ RUN curl --retry 7 -Lso /tmp/node-${NODE_VER}.tar.gz \
   && paxctl -cm out/Release/mksnapshot \
   && make -j${NPROC} \
   && make install \
-  && paxctl -cm /usr/bin/node \
-  && cd / \
+  && paxctl -cm /usr/bin/node
 
+RUN cd / \
   && if [ -x /usr/bin/npm ]; then \
         npm install -g npm@${NPM_VER} \
         && find /usr/lib/node_modules/npm -name test -o -name .bin -type d \
