@@ -27,10 +27,11 @@ RUN gpg --keyserver ha.pool.sks-keyservers.net --recv-keys \
         DD8F2338BAE7501E3DD5AC78C273792F7D83545D \
         C4F0DFFF4E8C1A8236409D08E73BC641CC11F4C8 \
         B9AE9905FFD7803F25714661B63B535A4C206CA9
+        RUN curl --retry 7 -Lso /tmp/consul-template.zip \
 
-RUN curl -sSL -o /tmp/node-${VERSION}.tar.gz \
+RUN curl --retry 7 -Lso /tmp/node-${VERSION}.tar.gz \
         "https://nodejs.org/dist/${VERSION}/node-${VERSION}.tar.gz" \
-  && curl -sSL -o /tmp/SHASUMS256.txt.asc
+  && curl -sSL -o /tmp/SHASUMS256.txt.asc \
         "https://nodejs.org/dist/${VERSION}/SHASUMS256.txt.asc" \
   && gpg --verify /tmp/SHASUMS256.txt.asc \
   && grep /tmp/node-${VERSION}.tar.gz SHASUMS256.txt.asc | sha256sum -c - \
