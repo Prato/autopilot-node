@@ -28,15 +28,15 @@ RUN gpg --keyserver ha.pool.sks-keyservers.net --recv-keys \
         C4F0DFFF4E8C1A8236409D08E73BC641CC11F4C8 \
         B9AE9905FFD7803F25714661B63B535A4C206CA9
 
-RUN curl --retry 7 -Lso /tmp/node-${NODE_VER}.tar.gz \
+RUN curl --retry 7 -Lso node-${NODE_VER}.tar.gz \
         "https://nodejs.org/dist/${NODE_VER}/node-${NODE_VER}.tar.gz" \
-  && curl -sSL -o /tmp/SHASUMS256.txt.asc \
+  && curl -sSL -o SHASUMS256.txt.asc \
         "https://nodejs.org/dist/${NODE_VER}/SHASUMS256.txt.asc" \
-  && gpg --verify /tmp/SHASUMS256.txt.asc \
-  && grep /tmp/node-${NODE_VER}.tar.gz SHASUMS256.txt.asc | sha256sum -c - \
-  && tar -zxf /tmp/node-${NODE_VER}.tar.gz
+  && gpg --verify SHASUMS256.txt.asc \
+  && grep node-${NODE_VER}.tar.gz SHASUMS256.txt.asc | sha256sum -c - \
+  && tar -zxf node-${NODE_VER}.tar.gz
 
-RUN cd /tmp/node-${NODE_VER} \
+RUN cd node-${NODE_VER} \
   && export GYP_DEFINES="linux_use_gold_flags=0" \
   && ./configure --prefix=/usr ${CONFIG_FLAGS} \
   && NPROC=$(grep -c ^processor /proc/cpuinfo 2>/dev/null || 1) \
