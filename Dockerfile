@@ -1,4 +1,4 @@
-FROM prato/autopilot-base
+FROM prato/autopilot-base:0.1.7
 
 ENV VERSION=v6.3.1 NPM_VERSION=3
 
