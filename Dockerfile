@@ -3,7 +3,6 @@ FROM prato/autopilot-base:0.1.8
 ENV NODE_VER=v6.3.1
 ENV NPM_VER=3
 
-# For base builds
 # ENV CONFIG_FLAGS="--without-npm" RM_DIRS=/usr/include
 # ENV CONFIG_FLAGS="--fully-static --without-npm" DEL_PKGS="libgcc libstdc++" RM_DIRS=/usr/include
 
