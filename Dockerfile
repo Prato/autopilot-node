@@ -4,7 +4,7 @@ RUN apk update && apk add \
         nodejs \
     && rm -rf /var/cache/apk/*
 
-RUN npm install \
+RUN npm init -f && npm install \
         chai@3.0.0 \
         dummy-json@1.0.1 \
         mocha@2.2.5 \
