@@ -20,7 +20,7 @@ RUN cd /usr/local/app && npm init -f && npm install \
         express@4.14.0 \
         express-openapi@0.23.1 \
         handlebars@4.0.5 \
-        hat: 0.0.3 \
+        hat@0.0.3 \
         mailcomposer@3.9.0 \
         mailgun-js@0.7.11 \
         moment@2.13.0 \
