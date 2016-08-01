@@ -32,4 +32,5 @@ RUN cd /usr/local/app && npm init -f && npm install \
         sprintf-js@1.0.3 \
         stripe@4.4.0 \
         swagger@0.7.5 \
-        twilio@2.9.1
+        twilio@2.9.1 \
+  && rm /usr/local/app/package.json
