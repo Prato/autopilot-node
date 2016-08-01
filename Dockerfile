@@ -4,14 +4,14 @@ RUN apk update && apk add \
         nodejs \
     && rm -rf /var/cache/apk/*
 
-RUN npm init -f && npm install \
+RUN cd /usr/local/app && npm init -f && npm install \
         chai@3.0.0 \
         dummy-json@1.0.1 \
         mocha@2.2.5 \
         request@2.58.0 \
         should@9.0.2 \
         supertest@1.0.0 \
-        watch@0.19.1
+        watch@0.19.1 \
         body-parser@1.15.2 \
         bunyan@1.8.0 \
         co@4.6.0 \
