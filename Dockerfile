@@ -1,4 +1,4 @@
-FROM prato/autopilot-base:next
+FROM prato/autopilot-base:0.2.0
 
 RUN apk update && apk add \
         nodejs \
