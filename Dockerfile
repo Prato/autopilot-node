@@ -46,11 +46,12 @@ RUN cd node-${NODE_VER} \
   && make install \
   && paxctl -cm /usr/bin/node
 
-RUN cd / && if [ -x /usr/bin/npm ]; then \
-                npm install -g npm@${NPM_VER} \
-                && find /usr/lib/node_modules/npm -name test -o -name .bin -type d \
-                | xargs rm -rf; \
-            fi
+RUN cd / && npm install -g npm@${NPM_VER}
+#  \
+# && if [ -x /usr/bin/npm ]; then \
+#                 && find /usr/lib/node_modules/npm -name test -o -name .bin -type d \
+#                 | xargs rm -rf; \
+#             fi
 
   # && apk del curl make gcc g++ python linux-headers paxctl gnupg ${DEL_PKGS} \
   # && rm -rf /etc/ssl /node-${NODE_VER}.tar.gz /SHASUMS256.txt.asc /node-${NODE_VER} ${RM_DIRS} \
